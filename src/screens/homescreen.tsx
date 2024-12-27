@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,34 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import useHomeScreen from '../hooks/useHomeScreen'; // Import the custom hook
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import useHomeScreen from '../hooks/useHomeScreen';
+import Carousel from 'react-native-reanimated-carousel';
 
 const { width } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
-  const { filteredProducts, searchText, cart, handleSearch } = useHomeScreen();
+  const { filteredProducts, searchText, cart, handleSearch,banners } = useHomeScreen();
+  
+
+  const renderCarousel = () => (
+    <View style={styles.carouselContainer}>
+      <Carousel
+        loop
+        width={width - 20}
+        height={150}
+        autoPlay
+        data={banners}
+        scrollAnimationDuration={1000}
+        renderItem={({ item }) => (
+          <Image
+            source={{ uri: item.thumbnail }}
+            style={styles.carouselImage}
+            resizeMode="contain"
+          />
+        )}
+      />
+    </View>
+  );
 
   const renderProductItem = ({ item }) => (
     <TouchableOpacity
@@ -41,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Search Bar with My Cart Button */}
+      {/* Search Bar */}
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchBar}
@@ -54,24 +75,24 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('Cart')}
         >
           <View style={styles.iconContainer}>
-            <Icon name="shopping-cart" size={24} color="#000" />
+            <Image source={require('../../assets/images/shoppingCart.png')} style={{height:40,width:40}} color="#000" />
             {cart.length > 0 && (
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>{cart.length}</Text>
               </View>
             )}
           </View>
-          <Text style={styles.cartText}>Bag</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Product List */}
+      {/* FlatList with Carousel as Header */}
       <FlatList
         data={filteredProducts}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderProductItem}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
+        ListHeaderComponent={renderCarousel} // Add Carousel as the header
         contentContainerStyle={styles.listContent}
       />
     </View>
@@ -79,11 +100,12 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#fff' },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 10,
+    paddingHorizontal: 10,
   },
   searchBar: {
     flex: 1,
@@ -125,8 +147,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  carouselContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  carouselImage: {
+    width: '100%',
+    height: 150,
+    borderRadius: 10,
+  },
   productCard: {
-    width: width / 2 - 15, // Two columns in grid
+    width: width / 2 - 15,
     backgroundColor: '#f9f9f9',
     borderRadius: 10,
     overflow: 'hidden',
@@ -173,7 +204,7 @@ const styles = StyleSheet.create({
     color: 'red',
     marginLeft: 6,
   },
-  listContent: { paddingBottom: 20 },
+  listContent: { paddingBottom: 20, paddingHorizontal: 10 },
 });
 
 export default HomeScreen;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import useCart from '../hooks/useCart'; // Import the custom hook
+import useCart from '../hooks/useCart'; // Custom hook for cart logic
 
 const CartScreen = ({ navigation }) => {
-  const { cart, increaseQuantity, decreaseQuantity, removeItem, calculateTotal } = useCart(); // Use custom hook
-  const total = calculateTotal(); // Calculate total from the hook
+  const { cart, increaseQuantity, decreaseQuantity, removeItem, calculateTotal } = useCart(); // Custom hook methods
+  const total = calculateTotal(); // Calculate total amount
 
   return (
     <View style={styles.container}>
@@ -20,7 +20,14 @@ const CartScreen = ({ navigation }) => {
                 <Image source={{ uri: item.thumbnail }} style={styles.image} />
                 <View style={styles.details}>
                   <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+                  <Text style={styles.category}>Category: {item.category}</Text>
+                  <View style={styles.priceContainer}>
+                    <Text style={styles.price}>₹{item.price.toFixed(2)}</Text>
+                    <Text style={styles.originalPrice}>
+                      ₹{(item.price + 500).toFixed(2)}
+                    </Text>
+                    <Text style={styles.discount}>50% OFF</Text>
+                  </View>
                   <View style={styles.quantityContainer}>
                     <TouchableOpacity
                       style={styles.quantityButton}
@@ -48,7 +55,7 @@ const CartScreen = ({ navigation }) => {
           />
 
           <View style={styles.summary}>
-            <Text style={styles.totalText}>Total: ${total.toFixed(2)}</Text>
+            <Text style={styles.totalText}>Total: ₹{total.toFixed(2)}</Text>
             <TouchableOpacity
               style={styles.checkoutButton}
               onPress={() => navigation.navigate('CartReview')}
@@ -63,13 +70,26 @@ const CartScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10 },
+  container: { flex: 1, padding: 10, backgroundColor: '#fff' },
   emptyText: { textAlign: 'center', fontSize: 18, marginTop: 20 },
-  cartItem: { flexDirection: 'row', marginBottom: 10, alignItems: 'center' },
+  cartItem: { flexDirection: 'row', marginBottom: 15, alignItems: 'center' },
   image: { width: 80, height: 80, borderRadius: 10, marginRight: 10 },
   details: { flex: 1 },
   title: { fontSize: 16, fontWeight: 'bold' },
-  price: { fontSize: 14, color: 'gray' },
+  category: { fontSize: 14, color: 'gray', marginTop: 5, marginBottom: 5 },
+  priceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  price: { fontSize: 16, fontWeight: 'bold', color: 'green' },
+  originalPrice: {
+    fontSize: 14,
+    textDecorationLine: 'line-through',
+    color: 'gray',
+    marginLeft: 10,
+  },
+  discount: { fontSize: 14, color: 'red', marginLeft: 10 },
   quantityContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 10 },
   quantityButton: {
     width: 30,
@@ -89,13 +109,23 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     paddingTop: 10,
     marginTop: 10,
+    backgroundColor: '#f9f9f9',
+    paddingHorizontal: 10,
   },
-  totalText: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 },
+  totalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 15,
+    color: '#333',
+  },
   checkoutButton: {
     backgroundColor: '#007bff',
     borderRadius: 10,
     paddingVertical: 15,
     alignItems: 'center',
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
   checkoutText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 });

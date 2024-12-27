@@ -17,8 +17,8 @@ const Router = () => {
         <Stack.Screen
           name="Home"
           options={{
-            title: 'Products', headerLeft: () => null, // Removes the back button
-            gestureEnabled: false,  // Disables swipe back gesture
+            title: 'Products', headerLeft: () => null, 
+            gestureEnabled: false,  
           }}
           component={HomeScreen}
         >
@@ -48,8 +48,8 @@ const Router = () => {
         <Stack.Screen
           name="ConfirmationScreen"
           options={{
-            title: 'Confirmation Screen', headerLeft: () => null, // Removes the back button
-            gestureEnabled: false,  // Disables swipe back gesture
+            title: 'Confirmation Screen', headerLeft: () => null, 
+            gestureEnabled: false,  
           }}
           component={ConfirmationScreen}
         >

@@ -3,23 +3,23 @@ import { useNavigation } from '@react-navigation/native';
 import { addToCart, removeFromCart } from '../redux/actions/actions';
 
 const useProductDetails = (product) => {
-  const cart = useSelector((state) => state.cart.cart); // Access cart from Redux
-  const dispatch = useDispatch(); // To dispatch actions
-  const navigation = useNavigation(); // To handle navigation
+  const cart = useSelector((state) => state.cart.cart); 
+  const dispatch = useDispatch(); 
+  const navigation = useNavigation(); 
 
-  // Check if the product is already in the cart
+  
   const isInCart = cart.some((item) => item.id === product.id);
 
   const handleAddToCart = () => {
-    dispatch(addToCart(product)); // Add product to cart
+    dispatch(addToCart(product)); 
   };
 
   const handleRemoveFromCart = () => {
-    dispatch(removeFromCart(product.id)); // Remove product from cart
+    dispatch(removeFromCart(product.id)); 
   };
 
   const handleViewCart = () => {
-    navigation.navigate('Cart'); // Navigate to Cart screen
+    navigation.navigate('Cart'); 
   };
 
   return {

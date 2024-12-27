@@ -33,7 +33,7 @@ const ConfirmationScreen = ({ navigation }) => {
     <View style={styles.container}>
       {/* Animated Image */}
       <Animated.Image
-        source={require('../../assets/images/orderplaced.png')}// Replace with the correct path to the uploaded image
+        source={require('../../assets/images/orderplaced.png')}
         style={[styles.image, imageStyle]}
         resizeMode="contain"
       />

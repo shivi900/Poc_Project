@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, updateQuantity } from '../redux/actions/actions';
 
 const useCart = () => {
-  const cart = useSelector((state) => state.cart.cart); // Access cart state from Redux
-  const dispatch = useDispatch(); // Dispatch actions
+  const cart = useSelector((state) => state.cart.cart); 
+  const dispatch = useDispatch(); 
 
   const increaseQuantity = (productId) => {
     const item = cart.find((item) => item.id === productId);
@@ -17,7 +17,7 @@ const useCart = () => {
     if (item && item.quantity > 1) {
       dispatch(updateQuantity(productId, item.quantity - 1));
     } else {
-      dispatch(removeFromCart(productId)); // Remove item if quantity is 1
+      dispatch(removeFromCart(productId)); 
     }
   };
 
